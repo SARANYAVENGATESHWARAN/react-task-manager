@@ -1,4 +1,4 @@
-## Task Manager Web Application
+## TASK MANAGER WEB APPLICATION
 ## LIVE PRODUCT LINK: https://scheduletaskmanager.netlify.app/
 ## LIVE DOCUMENTATION:https://docs.google.com/document/d/1ZWn-47XgEAHp51VOQlc2-UMdneG5Li40htYlX6T39mE/edit?usp=sharing
 
@@ -25,7 +25,7 @@ The application is designed as a single-page application (SPA) with no backend d
 ## Live Deployment
 
 ## Production URL:
-https://stunning-biscuit-c5e629.netlify.app/
+https://scheduletaskmanager.netlify.app/
 
 ## Key Features
 
