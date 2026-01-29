@@ -1,38 +1,435 @@
-.App {
-  text-align: center;
+/* CSS Variables for themes */
+:root {
+  --bg-color: #f8f9fa;
+  --text-color: #333333;
+  --border-color: #e0e0e0;
+  --hover-bg: #e9ecef;
+  --header-bg: #ffffff;
+  --sidebar-bg: #343a40;
+  --sidebar-text: #ffffff;
+  --sidebar-hover: #495057;
+  --card-bg: #ffffff;
+  --stat-icon-bg: #007bff;
+  --priority-high: #dc3545;
+  --priority-med: #ffc107;
+  --priority-low: #28a745;
+  --completed-text: #6c757d;
+  --shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  --transition: all 0.3s ease;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+body.dark {
+  --bg-color: #121212;
+  --text-color: #ffffff;
+  --border-color: #333333;
+  --hover-bg: #1e1e1e;
+  --header-bg: #1a1a1a;
+  --sidebar-bg: #1a1a1a;
+  --sidebar-text: #ffffff;
+  --sidebar-hover: #333333;
+  --card-bg: #2a2a2a;
+  --stat-icon-bg: #0056b3;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
+/* App container: Full-width dashboard layout */
+.app {
+  display: flex;
   min-height: 100vh;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: var(--transition);
+}
+
+/* Fade-in animation */
+.fade-in {
+  animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Sidebar */
+.sidebar {
+  width: 250px;
+  background-color: var(--sidebar-bg);
+  color: var(--sidebar-text);
+  padding: 20px;
+  box-shadow: var(--shadow);
+  transition: var(--transition);
+}
+
+.sidebar h2 {
+  margin-bottom: 20px;
+  font-size: 1.5em;
+}
+
+.sidebar nav {
   display: flex;
   flex-direction: column;
+  gap: 10px;
+}
+
+.sidebar button {
+  background: none;
+  border: none;
+  color: var(--sidebar-text);
+  padding: 12px;
+  text-align: left;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: var(--transition);
+}
+
+.sidebar button:hover,
+.sidebar button.active {
+  background-color: var(--sidebar-hover);
+  transform: translateX(5px);
+}
+
+/* Main content */
+.main-content {
+  flex: 1;
+  padding: 20px;
+  overflow-x: auto;
+}
+
+/* Header */
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background-color: var(--header-bg);
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow);
+  transition: var(--transition);
+}
+
+.welcome h1 {
+  margin: 0;
+  font-size: 1.8em;
+}
+
+.welcome p {
+  margin: 5px 0 0 0;
+  color: var(--completed-text);
+}
+
+.theme-toggle {
+  padding: 10px 15px;
+  background-color: var(--stat-icon-bg);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.theme-toggle:hover {
+  transform: scale(1.05);
+}
+
+/* Dashboard */
+.dashboard {
+  margin-bottom: 20px;
+}
+
+.stats-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.stat-card {
+  background-color: var(--card-bg);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  text-align: center;
+  transition: var(--transition);
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.stat-icon {
+  font-size: 2em;
+  margin-bottom: 10px;
+}
+
+.stat-card h3 {
+  margin: 10px 0;
+  font-size: 1.2em;
+}
+
+.stat-card p {
+  font-size: 1.5em;
+  font-weight: bold;
+  color: var(--stat-icon-bg);
+}
+
+/* Tasks section */
+.tasks-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Table styles */
+.task-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: var(--card-bg);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  transition: var(--transition);
+}
+
+.task-table thead {
+  position: sticky;
+  top: 0;
+  background-color: var(--header-bg);
+}
+
+.task-table th,
+.task-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.task-table th {
+  font-weight: bold;
+}
+
+.task-table tr:hover {
+  background-color: var(--hover-bg);
+}
+
+.task-table .completed {
+  text-decoration: line-through;
+  color: var(--completed-text);
+}
+
+/* Priority badges */
+.priority-badge {
+  padding: 4px 8px;
+  border-radius: 12px;
+  color: white;
+  font-size: 0.8em;
+  font-weight: bold;
+}
+
+.priority-high {
+  background-color: var(--priority-high);
+}
+
+.priority-med {
+  background-color: var(--priority-med);
+}
+
+.priority-low {
+  background-color: var(--priority-low);
+}
+
+/* Avatar */
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: var(--stat-icon-bg);
+  color: white;
+  display: flex;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  font-weight: bold;
+}
+
+/* Buttons */
+.btn {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.btn:hover {
+  transform: scale(1.05);
+}
+
+.btn:active {
+  transform: scale(0.95);
+}
+
+.btn-delete {
+  background-color: #dc3545;
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.btn-delete:hover {
+  background-color: #c82333;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.btn-clear {
+  background-color: #ffc107;
+  color: black;
+  margin-bottom: 10px;
+}
+
+.checkbox {
+  transform: scale(1.2);
+}
+
+/* Form styles */
+.task-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 20px;
+  background-color: var(--header-bg);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  transition: var(--transition);
+}
+
+.task-form input,
+.task-form select {
+  padding: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+  flex: 1;
+  min-width: 150px;
+  transition: var(--transition);
+}
+
+.task-form input:focus,
+.task-form select:focus {
+  outline: none;
+  border-color: var(--stat-icon-bg);
+}
+
+.task-form button {
+  padding: 10px 15px;
+  background-color: var(--stat-icon-bg);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.task-form button:hover {
+  background-color: #0056b3;
+}
+
+/* Filters and search */
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 20px;
+  background-color: var(--header-bg);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  transition: var(--transition);
+}
+
+.filters input,
+.filters select {
+  padding: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+  transition: var(--transition);
+}
+
+.filters input:focus,
+.filters select:focus {
+  outline: none;
+  border-color: var(--stat-icon-bg);
+}
+
+/* Empty state */
+.empty-state {
+  text-align: center;
+  padding: 50px;
+  color: var(--text-color);
+  font-size: 1.2em;
+  background-color: var(--card-bg);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  transition: var(--transition);
+}
+
+.empty-state .icon {
+  font-size: 3em;
+  margin-bottom: 20px;
+}
+
+/* Name prompt */
+.name-prompt-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.name-prompt {
+  background-color: var(--card-bg);
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  text-align: center;
+  max-width: 400px;
+  width: 90%;
+}
+
+.name-prompt input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+}
+
+.name-prompt button {
+  padding: 10px 20px;
+  background-color: var(--stat-icon-bg);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.name-prompt button:hover {
+  background-color: #0056b3;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .app {
+    flex-direction: column;
   }
-  to {
-    transform: rotate(360deg);
+  .sidebar {
+    width: 100%;
+    padding: 10px;
+  }
+  .sidebar nav {
+    flex-direction: row;
+    overflow-x: auto;
   }
 }
